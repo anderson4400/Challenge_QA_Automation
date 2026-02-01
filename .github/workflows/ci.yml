@@ -35,6 +35,18 @@ jobs:
           SAUCEDEMO_PASS: ${{ vars.SAUCEDEMO_PASS }}
           SAUCEDEMO_USER: ${{ vars.SAUCEDEMO_USER }}
 
+      - name: Generate Allure Report
+        if: always() 
+        run: npm run generate-report
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-evidence
+          path: allure-report
+          retention-days: 7
+
       - name: Upload Cucumber Report
         if: always()
         uses: actions/upload-artifact@v4

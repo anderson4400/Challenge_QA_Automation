@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Cucumber: Run Current Feature",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/@cucumber/cucumber/bin/cucumber-js",
+            "args": [
+                "${file}",
+                "--format",
+                "progress"
+            ],
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+    ]
+}

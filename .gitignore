@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+trace.zip
+traces/
+
+# Cucumber
+cucumber-report.html
+
+# Allure Reports
+allure-results/
+allure-report/
+videos/
+screenshots/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db

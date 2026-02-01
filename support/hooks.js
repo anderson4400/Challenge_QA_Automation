@@ -7,25 +7,29 @@ require('allure-cucumberjs');
 setDefaultTimeout(60 * 1000);
 
 let browser;
+const isHeadless = process.env.CI === 'true';
 
 /** Launches browser before all scenarios (chromium, firefox, webkit, chrome, or edge per BROWSER env) */
 BeforeAll(async function () {
     const browserType = process.env.BROWSER || 'chromium';
+
+    const launchOptions = { headless: isHeadless };
+
     switch (browserType) {
         case 'firefox':
-            browser = await firefox.launch({ headless: false });
+            browser = await firefox.launch(launchOptions);
             break;
         case 'webkit':
-            browser = await webkit.launch({ headless: false });
+            browser = await webkit.launch(launchOptions);
             break;
         case 'edge':
-            browser = await chromium.launch({ headless: false, channel: 'msedge' });
+            browser = await chromium.launch({ ...launchOptions, channel: 'msedge' });
             break;
         case 'chrome':
-            browser = await chromium.launch({ headless: false, channel: 'chrome' });
+            browser = await chromium.launch({ ...launchOptions, channel: 'chrome' });
             break;
         default:
-            browser = await chromium.launch({ headless: false });
+            browser = await chromium.launch(launchOptions);
     }
 });
 

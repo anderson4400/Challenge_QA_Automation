@@ -5,7 +5,7 @@ class AllureUtils {
     await allure.step(title, async () => {
       await action();
       const screenshot = await page.screenshot();
-      allure.attachment('screenshot', screenshot, "image/png");
+      allure.attachment(`Allure-Evidence: ${title}`, screenshot, "image/png");
     });
   }
 }

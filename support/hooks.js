@@ -48,7 +48,7 @@ Before(async function () {
 AfterStep(async function () {
     // Tomamos captura del viewport actual para ver el progreso paso a paso
     const image = await this.page.screenshot();
-    this.attach(image, 'image/png');
+    this.attach(image, 'image/x-cucumber-screenshot');
 });
 
 /** Closes page and context after each scenario + Final Screenshot */
@@ -59,7 +59,9 @@ After(async function (scenario) {
     const screenshot = await this.page.screenshot({
         fullPage: status === Status.FAILED
     });
-    this.attach(screenshot, 'image/png');
+
+    const label = status === Status.FAILED ? "Final-Screenshot-Error" : "Final-Screenshot-Success";
+    this.attach(screenshot, { fileName: label, mediaType: 'image/png' });
 
     await this.page.close();
     await this.context.close();

@@ -29,6 +29,11 @@ jobs:
 
       - name: Run Cucumber Tests
         run: npm run test
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+          BROWSER: ${{ vars.BROWSER }}
+          SAUCEDEMO_PASS: ${{ vars.SAUCEDEMO_PASS }}
+          SAUCEDEMO_USER: ${{ vars.SAUCEDEMO_USER }}
 
       - name: Upload Cucumber Report
         if: always()

@@ -1,4 +1,4 @@
-const { Before, After, BeforeAll, AfterAll, setDefaultTimeout } = require('@cucumber/cucumber');
+const { Before, After, AfterStep, BeforeAll, AfterAll, setDefaultTimeout , Status} = require('@cucumber/cucumber');
 const { chromium, firefox, webkit } = require('playwright');
 require('dotenv').config();
 require('allure-cucumberjs');
@@ -35,7 +35,7 @@ BeforeAll(async function () {
 
 /** Closes the browser after all scenarios */
 AfterAll(async function () {
-    await browser.close();
+    if (browser) await browser.close();
 });
 
 /** Creates new context and page before each scenario */
@@ -44,8 +44,23 @@ Before(async function () {
     this.page = await this.context.newPage();
 });
 
-/** Closes page and context after each scenario */
-After(async function () {
+/** Captura de pantalla después de CADA PASO */
+AfterStep(async function () {
+    // Tomamos captura del viewport actual para ver el progreso paso a paso
+    const image = await this.page.screenshot();
+    this.attach(image, 'image/png');
+});
+
+/** Closes page and context after each scenario + Final Screenshot */
+After(async function (scenario) {
+    const status = scenario.result?.status;
+
+    // Captura final: Si falla es Full Page para ver todo el error, si pasa es normal
+    const screenshot = await this.page.screenshot({
+        fullPage: status === Status.FAILED
+    });
+    this.attach(screenshot, 'image/png');
+
     await this.page.close();
     await this.context.close();
 });
